@@ -1,0 +1,91 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Entity.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kngwato <kngwato@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/09 12:26:32 by kngwato           #+#    #+#             */
+/*   Updated: 2018/06/09 14:37:09 by kngwato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "Entity.hpp"
+
+Entity::Entity(WINDOW * win, int x, int y, char c) {
+    currentWindow = win;
+    xLoc = x;
+    yLoc = y;
+    getmaxyx(currentWindow, yMax, xMax);
+    character = c;
+}
+
+Entity::~Entity() {
+    
+}
+
+Entity::Entity(Entity const & src) {
+    xLoc = src.getX();
+    yLoc = src.getY();
+    xMax = src.getXMax();
+    yMax = src.getYMax();
+    character = src.getCharater();
+    currentWindow = src.getCurrentWindow();
+}
+
+Entity & Entity::operator = (Entity const & src){
+    xLoc = src.getX();
+    yLoc = src.getY();
+    xMax = src.getXMax();
+    yMax = src.getYMax();
+    character = src.getCharater();
+    currentWindow = src.getCurrentWindow();
+    return *this;
+}
+
+bool Entity::comparePos(Entity const & src) const{
+    if (xLoc == src.getX() && yLoc == src.getY())
+        return true;
+    else
+        return false;
+}
+
+void Entity::display(void) const{
+    mvwaddch(currentWindow, yLoc, xLoc, character);
+}
+
+int Entity::getX(void) const{
+    return xLoc;
+}
+
+int Entity::getY(void) const{
+    return yLoc;
+}
+
+int     Entity::getXMax(void) const{
+    return xMax;
+}
+
+int     Entity::getYMax(void) const{
+    return yMax;
+}
+
+char    Entity::getCharater(void) const{
+    return character;
+}
+
+WINDOW *    Entity::getCurrentWindow(void) const{
+    return currentWindow;
+}
+
+void    Entity::move(int xIncr, int yIncr){
+    xLoc += xIncr;
+    yLoc += yIncr;
+}
+
+void    Entity::moveForward(int xIncr) {
+    mvwaddch(currentWindow, getY(), getX(), ' ');
+    move(xIncr, 0);
+    if (getX() < 1)
+        xLoc = 1;
+}
