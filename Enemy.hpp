@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Enemy.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kngwato <kngwato@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:25:15 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 15:28:47 by kngwato          ###   ########.fr       */
+/*   Updated: 2018/06/09 16:58:38 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class Enemy : public Entity
         ~Enemy();
         Enemy(Enemy const & src);
         Enemy & operator = (Enemy const & src);
+        void    moveForward(int xIncr);
 };
 
 #endif

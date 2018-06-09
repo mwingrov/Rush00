@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Enemy.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kngwato <kngwato@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:25:27 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 16:08:22 by kngwato          ###   ########.fr       */
+/*   Updated: 2018/06/09 17:14:24 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,13 @@ Enemy & Enemy::operator=(Enemy const & src){
     character = src.getCharater();
     currentWindow = src.getCurrentWindow();
     return *this;
+}
+
+void    Enemy::moveForward(int xIncr) {
+    mvwaddch(currentWindow, getY(), getX(), ' ');
+    move(-xIncr, 0);
+    if (getX() < 1) {
+        xLoc = -1;
+        xLoc = 48;
+    }
 }
