@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:46:12 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/10 18:09:41 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/10 18:26:18 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void    genEnemy() {
     int x = 48;
     int speed = 0;
     
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 20; i++) {
         srand(i);
         y = 1 + rand()%17;
         speed = 1 + rand() % 3;
@@ -76,7 +76,7 @@ void    moveWeapons(void) {
 }
 
 void    moveEnemies() {
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 20; i++) {
         if (enemies[i].isReady()) {
             enemies[i].moveForward(enemies[i].getSpeed());
             enemies[i].display();
