@@ -6,13 +6,13 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 12:26:32 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 17:19:12 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/10 16:55:10 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Entity.hpp"
 
-Entity::Entity(WINDOW * win, int x, int y, char c) {
+Entity::Entity(WINDOW * win, int x, int y, const char * c) {
     currentWindow = win;
     xLoc = x;
     yLoc = y;
@@ -74,7 +74,7 @@ bool Entity::comparePos(Entity const & src) const{
 }
 
 void Entity::display(void) const{
-    mvwaddch(currentWindow, yLoc, xLoc, character);
+    mvwaddstr(currentWindow, yLoc, xLoc, character);
 }
 
 int Entity::getX(void) const{
@@ -93,7 +93,7 @@ int     Entity::getYMax(void) const{
     return yMax;
 }
 
-char    Entity::getCharater(void) const{
+const char *  Entity::getCharater(void) const{
     return character;
 }
 
@@ -107,7 +107,7 @@ void    Entity::move(int xIncr, int yIncr){
 }
 
 void    Entity::moveForward(int xIncr) {
-    mvwaddch(currentWindow, getY(), getX(), ' ');
+    mvwaddstr(currentWindow, getY(), getX(), "  ");
     move(xIncr, 0);
     if (getX() < 1)
         xLoc = 1;

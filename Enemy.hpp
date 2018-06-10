@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:25:15 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 16:58:38 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/10 16:36:04 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 class Enemy : public Entity
 {
     public:
-        Enemy(WINDOW * win, int x, int y, char c);
+        Enemy(WINDOW * win, int x, int y, const char * c);
         Enemy();
         ~Enemy();
         Enemy(Enemy const & src);

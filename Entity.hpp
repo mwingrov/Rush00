@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Entity.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kngwato <kngwato@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 12:27:50 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 14:11:52 by kngwato          ###   ########.fr       */
+/*   Updated: 2018/06/10 16:46:11 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class Entity
 {
     public:
-        Entity(WINDOW * win, int x, int y, char c);
+        Entity(WINDOW * win, int x, int y, const char * c);
         Entity();
         ~Entity();
         Entity(Entity const & src);
@@ -33,14 +33,14 @@ class Entity
         void    moveForward(int xIncr);
         int     getXMax(void) const;
         int     getYMax(void) const;
-        char    getCharater(void) const;
+        const char *    getCharater(void) const;
         WINDOW *    getCurrentWindow(void) const;
     protected:
         int xLoc;
         int yLoc;
         int xMax;
         int yMax;
-        char character;
+        const char * character;
         WINDOW * currentWindow;
         static const int SPEED = 1;
 };

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Player.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kngwato <kngwato@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:17:37 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 13:38:04 by kngwato          ###   ########.fr       */
+/*   Updated: 2018/06/10 16:36:13 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 class Player : public Entity {
     public:
-        Player(WINDOW * win, int x, int y, char c);
+        Player(WINDOW * win, int x, int y, const char * c);
         ~Player(void);
         Player(Player const & src);
         Player & operator=(Player const & src);

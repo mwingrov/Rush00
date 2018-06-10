@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:46:12 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/10 16:09:31 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/10 17:06:16 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@
 WINDOW * space;
 Enemy  enemies[20];
 Player * player;
-Weapons weapons[200];
+Weapons weapons[50];
 int weaponsCount = 0;
 int score = 0;
 int enemyCounter = 20;
 
 void    detectEnemyCol(int j) {
     for(int i = 0; i <= weaponsCount; i++) {
-        if (i != 200) {
+        if (i != 50) {
             if (enemies[j].comparePos(weapons[i]) == true)
             {
-                mvwaddch(space, enemies[j].getY(), enemies[j].getX(), ' ');
+                mvwaddstr(space, enemies[j].getY(), enemies[j].getX(), "   ");
                 enemies[j] = Enemy();
                 score += 10;
                 enemyCounter--;
@@ -58,13 +58,13 @@ void    genEnemy() {
         srand(i);
         y = 1 + rand()%17;
         speed = 1 + rand()% 2;
-        enemies[i] =  Enemy(space, x, y, '<');
+        enemies[i] =  Enemy(space, x, y, "<={");
         enemies[i].setSpeed(speed);
     }
 }
 
 void    moveWeapons(void) {
-    mvwprintw(space, 18, 2, "-: %d", 200 - weaponsCount);
+    mvwprintw(space, 18, 2, "Ammo: %d", 50 - weaponsCount);
     for(int i = 0; i <= weaponsCount; i++) {
         if (i != 200) {
             weapons[i].moveForward(2);
@@ -88,7 +88,7 @@ void    moveEnemies() {
                     refresh();
                     exit(0);
                 }
-                mvwaddch(space, enemies[i].getY(), enemies[i].getX(), ' ');
+                mvwaddstr(space, enemies[i].getY(), enemies[i].getX(), "   ");
                 enemies[i] = Enemy();
             }
             else {
@@ -129,7 +129,7 @@ int main() {
     box(space,0,0);
     refresh();
     wrefresh(space);
-    player = new Player(space, 4, 10, 'P');
+    player = new Player(space, 4, 10, "=>");
     mvwprintw(space, 18, 18, "Lives: 9");
     mvwprintw(space, 18, 38, "score: %d", score);
     std::thread runner (EnemyShip);
@@ -140,7 +140,7 @@ int main() {
         input = player->getPlayerInput();
         if (input == 32 && weaponsCount < 200) //KEY_SPACE
         {
-            weapons[weaponsCount] = Weapons(space, player->getX()+3, player->getY(), '-');
+            weapons[weaponsCount] = Weapons(space, player->getX()+3, player->getY(), "->");
             weapons[weaponsCount].shoot();
             weaponsCount++;
         }

@@ -6,13 +6,13 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:25:27 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 17:14:24 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/10 16:59:05 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Enemy.hpp"
 
-Enemy::Enemy(WINDOW * win, int x, int y, char c) : Entity(win, x, y, c){
+Enemy::Enemy(WINDOW * win, int x, int y, const char * c) : Entity(win, x, y, c){
     ready = true;
 }
 
@@ -38,7 +38,7 @@ Enemy & Enemy::operator=(Enemy const & src){
 }
 
 void    Enemy::moveForward(int xIncr) {
-    mvwaddch(currentWindow, getY(), getX(), ' ');
+    mvwaddstr(currentWindow, getY(), getX(), "   ");
     move(-xIncr, 0);
     if (getX() < 1) {
         xLoc = 48;

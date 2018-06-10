@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:26:03 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/09 18:24:44 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/10 16:59:07 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "Enemy.hpp"
 
-Weapons::Weapons(WINDOW * win, int x, int y, char c) : Entity(win, x, y, c){
+Weapons::Weapons(WINDOW * win, int x, int y, const char * c) : Entity(win, x, y, c){
 }
 
 Weapons::Weapons(void) {
@@ -42,7 +42,7 @@ void    Weapons::shoot(void) {
 }
 
 void    Weapons::moveForward(int xIncr) {
-    mvwaddch(currentWindow, getY(), getX(), ' ');
+    mvwaddstr(currentWindow, getY(), getX(), "   ");
     move(xIncr, 0);
     if (getX() < 1)
         xLoc = 1;
