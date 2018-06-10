@@ -6,7 +6,7 @@
 #    By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/10 15:58:12 by mwingrov          #+#    #+#              #
-#    Updated: 2018/06/10 16:01:15 by mwingrov         ###   ########.fr        #
+#    Updated: 2018/06/10 16:07:49 by mwingrov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,23 +16,23 @@ FLAGS= -c -Wall -Wextra -Werror
 
 all: prog
 
-prog: main.o ft_.o
-	$(CC) main.o Pony.o -o ft_retro
+prog: main.o Enemy.o Weapons.o Player.o Entity.o 
+	$(CC) main.o Enemy.o Weapons.o Player.o Entity.o -lncurses -o ft_retro
 
 main.o: main.cpp
 	$(CC) $(FLAGS) main.cpp
 
-Contact.o: Pony.cpp Pony.hpp
-	$(CC) $(FLAGS) Pony.cpp Pony.hpp
+Entity.o: Entity.cpp Entity.hpp
+	$(CC) $(FLAGS) Entity.cpp Entity.hpp
 
-Contact.o: Pony.cpp Pony.hpp
-	$(CC) $(FLAGS) Pony.cpp Pony.hpp
+Enemy.o: Enemy.cpp Enemy.hpp
+	$(CC) $(FLAGS) Enemy.cpp Enemy.hpp
 
-Contact.o: Pony.cpp Pony.hpp
-	$(CC) $(FLAGS) Pony.cpp Pony.hpp
+Player.o: Player.cpp Player.hpp
+	$(CC) $(FLAGS) Player.cpp Player.hpp
 
-Contact.o: Pony.cpp Pony.hpp
-	$(CC) $(FLAGS) Pony.cpp Pony.hpp
+Weapons.o: Weapons.cpp Weapons.hpp
+	$(CC) $(FLAGS) Weapons.cpp Weapons.hpp
 	
 clean:
 	rm -rf *.o ft_retro
