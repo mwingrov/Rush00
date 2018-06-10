@@ -17,6 +17,10 @@
 Weapons::Weapons(WINDOW * win, int x, int y, char c) : Entity(win, x, y, c){
 }
 
+Weapons::Weapons(void) {
+}
+
+
 Weapons::~Weapons(void) {
 }
 
@@ -33,11 +37,13 @@ Weapons & Weapons::operator=(Weapons const & src){
     return *this;
 }
 
+void    Weapons::shoot(void) {
+    display();
+}
+
 void    Weapons::moveForward(int xIncr) {
     mvwaddch(currentWindow, getY(), getX(), ' ');
     move(xIncr, 0);
-    if (getX() < 1) {
-        xLoc = -1;
-        xLoc = getX();
-    }
+    if (getX() < 1)
+        xLoc = 1;
 }

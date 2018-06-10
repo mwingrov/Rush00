@@ -18,10 +18,12 @@ class Weapons : public Entity
 {
     public:
         Weapons(WINDOW * win, int x, int y, char c);
+        Weapons();
         ~Weapons();
         Weapons(Weapons const & src);
         Weapons & operator = (Weapons const & src);
         void    moveForward(int xIncr);
+        void    shoot(void);
 };
 
 #endif

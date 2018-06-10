@@ -13,6 +13,11 @@
 #include "Enemy.hpp"
 
 Enemy::Enemy(WINDOW * win, int x, int y, char c) : Entity(win, x, y, c){
+    ready = true;
+}
+
+Enemy::Enemy(void) {
+    ready = false;
 }
 
 Enemy::~Enemy(void) {
@@ -28,6 +33,7 @@ Enemy & Enemy::operator=(Enemy const & src){
     yMax = src.getYMax();
     character = src.getCharater();
     currentWindow = src.getCurrentWindow();
+    ready = true;
     return *this;
 }
 
@@ -35,7 +41,19 @@ void    Enemy::moveForward(int xIncr) {
     mvwaddch(currentWindow, getY(), getX(), ' ');
     move(-xIncr, 0);
     if (getX() < 1) {
-        xLoc = -1;
         xLoc = 48;
     }
+}
+
+void Enemy::setSpeed(int speed) {
+    enemySpeed = speed;
+}
+
+int Enemy::getSpeed(void)const {
+    return enemySpeed;
+}
+
+
+bool Enemy::isReady(void)const{
+    return ready;
 }

@@ -24,7 +24,10 @@ class Player : public Entity {
         void moveDown(void);
         void moveBackwards(void);
         int getPlayerInput(void);
-        // Weapon & shoot(void) const;
+        int getLives(void) const;
+        int decreaseLives(void);
+    private:
+        int lives;
 };
 
 #endif

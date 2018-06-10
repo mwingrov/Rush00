@@ -12,65 +12,105 @@
 
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "Weapons.hpp"
 #include <thread>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
 
 WINDOW * space;
+Enemy  enemies[20];
+Player * player;
+Weapons weapons[200];
+int weaponsCount = 0;
+int score = 0;
+int enemyCounter = 20;
 
-void    EnemyShip(void) {
-    int i = 0;
-    Enemy * e = new Enemy(space, 48, 1, '<');
-    Enemy * e1 = new Enemy(space, 48, 2, '{');
-    Enemy * e2 = new Enemy(space, 48, 4, '[');
-    Enemy * e3 = new Enemy(space, 48, 10, '=');
-    Enemy * e4 = new Enemy(space, 48, 11, '+');
-    Enemy * e5 = new Enemy(space, 48, 12, '=');
-    Enemy * e6 = new Enemy(space, 48, 13, '<');
-    Enemy * e7 = new Enemy(space, 48, 14, '*');
-    Enemy * e8 = new Enemy(space, 48, 15, '{');
-    Enemy * e9 = new Enemy(space, 48, 16, '<');
-    Enemy * e10 = new Enemy(space, 48, 17, '~');
-    e->display();
-    e1->display();
-    e2->display();
-    e3->display();
-    e4->display();
-    e5->display();
-    e6->display();
-    e7->display();
-    e8->display();
-    e9->display();
-    e10->display();
+void    detectEnemyCol(int j) {
+    for(int i = 0; i <= weaponsCount; i++) {
+        if (i != 200) {
+            if (enemies[j].comparePos(weapons[i]) == true)
+            {
+                mvwaddch(space, enemies[j].getY(), enemies[j].getX(), ' ');
+                enemies[j] = Enemy();
+                score += 10;
+                enemyCounter--;
+                mvwprintw(space, 18, 38, "score: %d", score);
+                if (enemyCounter == 0) {
+                    mvwprintw(space, 18, 18, "YOU WIN!!!!!");
+                    getch();
+                    refresh();
+                    exit(0);
+                }
+            }
+        }
+    }
     wrefresh(space);
-    while(true) {
-        if (i%100000000 == 0)
-        {
-            e->moveForward(2);
-            e1->moveForward(5);
-            e2->moveForward(4);
-            e3->moveForward(3);
-            e4->moveForward(1);
-            e5->moveForward(5);
-            e6->moveForward(2);
-            e7->moveForward(6);
-            e8->moveForward(4);
-            e9->moveForward(5);
-            e10->moveForward(6);
-            e->display();
-            e1->display();
-            e2->display();
-            e3->display();
-            e4->display();
-            e4->display();
-            e5->display();
-            e6->display();
-            e7->display();
-            e8->display();
-            e9->display();
-            e10->display();
+}
+
+void    genEnemy() {
+    int y = 0;
+    int x = 48;
+    int speed = 0;
+    
+    for(int i = 0; i < 20; i++) {
+        srand(i);
+        y = 1 + rand()%17;
+        speed = 1 + rand()% 4;
+        enemies[i] =  Enemy(space, x, y, '<');
+        enemies[i].setSpeed(speed);
+    }
+}
+
+void    moveWeapons(void) {
+    mvwprintw(space, 18, 2, "-: %d", 200 - weaponsCount);
+    for(int i = 0; i <= weaponsCount; i++) {
+        if (i != 200) {
+            weapons[i].moveForward(2);
+            weapons[i].shoot();
+        }
+    }
+}
+
+void    moveEnemies() {
+    for(int i = 0; i < 20; i++) {
+        if (enemies[i].isReady()) {
+            enemies[i].moveForward(enemies[i].getSpeed());
+            enemies[i].display();
+            if (enemies[i].comparePos(player) == true)
+            {
+                enemyCounter--;
+                if (player->decreaseLives() == 0)
+                {
+                    mvwprintw(space, 18, 18, "YOU DIED!!!");
+                    getch();
+                    refresh();
+                    exit(0);
+                }
+                mvwaddch(space, enemies[i].getY(), enemies[i].getX(), ' ');
+                enemies[i] = Enemy();
+            }
+            else {
+                detectEnemyCol(i);
+            }
             wrefresh(space);
         }
-        i++;
+    }
+}
+
+
+void    EnemyShip(void) {
+
+    genEnemy();
+    wrefresh(space);
+    while(true) {
+            moveWeapons();
+            moveEnemies();
+            mvwprintw(space, 18, 18, "Lives: ");
+            mvwprintw(space, 18, 18, "Lives: %d", player->getLives());
+            wrefresh(space);
+            usleep(100000);
     }
 }
 
@@ -80,23 +120,38 @@ int main() {
     initscr();
     noecho();
     cbreak();
+    curs_set(0);
 
     int yMax, xMax;
+    int input;
     getmaxyx(stdscr, yMax, xMax);
     space = newwin(20, 50, (yMax/2 - 10), 10);
     box(space,0,0);
     refresh();
     wrefresh(space);
-
-    
-    Player * p = new Player(space, 1, 10, 'P');
+    player = new Player(space, 4, 10, 'P');
+    mvwprintw(space, 18, 18, "Lives: 9");
+    mvwprintw(space, 18, 38, "score: %d", score);
     std::thread runner (EnemyShip);
-    
-    while(p->getPlayerInput() != 'x')
+    do
     {
-        p->display();
+        player->display();
         wrefresh(space);
+        input = player->getPlayerInput();
+        if (input == 32 && weaponsCount < 200) //KEY_SPACE
+        {
+            weapons[weaponsCount] = Weapons(space, player->getX()+3, player->getY(), '-');
+            weapons[weaponsCount].shoot();
+            weaponsCount++;
+        }
+        if(input == 'x')
+        {
+            runner.detach();
+            refresh();
+            return 0;
+        }
     }
+    while(true);
     runner.join();
     getch();
     endwin();

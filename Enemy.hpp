@@ -18,10 +18,17 @@ class Enemy : public Entity
 {
     public:
         Enemy(WINDOW * win, int x, int y, char c);
+        Enemy();
         ~Enemy();
         Enemy(Enemy const & src);
         Enemy & operator = (Enemy const & src);
         void    moveForward(int xIncr);
+        void    setSpeed(int speed);
+        int     getSpeed(void)const;
+        bool    isReady(void)const;
+    private:
+        int enemySpeed;
+        bool ready;
 };
 
 #endif

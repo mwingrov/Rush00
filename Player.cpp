@@ -15,12 +15,14 @@
 #include <cstdlib>
 
 Player::Player(WINDOW * win, int x, int y, char c) : Entity(win, x, y, c){
+    lives = 9;
 }
 
 Player::~Player(void) {
 }
 
 Player::Player(Player const & src) : Entity(src){
+    lives = src.lives;
 }
 
 Player & Player::operator=(Player const & src){
@@ -30,6 +32,7 @@ Player & Player::operator=(Player const & src){
     yMax = src.getYMax();
     character = src.getCharater();
     currentWindow = src.getCurrentWindow();
+    lives = src.lives;
     keypad(currentWindow, true);
     return *this;
 }
@@ -44,8 +47,8 @@ void Player::moveUp(void) {
 void Player::moveDown(void) {
     mvwaddch(currentWindow, getY(), getX(), ' ');
     move(0, SPEED);
-    if (getY() > yMax - 2)
-        yLoc = yMax - 2;
+    if (getY() > yMax - 3)
+        yLoc = yMax - 3;
 }
 
 void Player::moveBackwards(void) {
@@ -75,4 +78,14 @@ int Player::getPlayerInput(void) {
             break;
     }
     return input;
+}
+
+int Player::getLives(void) const {
+    return lives;
+}
+
+int Player::decreaseLives(void){
+    if (lives > 0)
+        lives--;
+    return lives;
 }

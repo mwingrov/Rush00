@@ -20,9 +20,11 @@ class Entity
 {
     public:
         Entity(WINDOW * win, int x, int y, char c);
+        Entity();
         ~Entity();
         Entity(Entity const & src);
         Entity & operator = (Entity const & src);
+        bool    comparePos(Entity const * src) const;
         bool    comparePos(Entity const & src) const;
         void    display(void) const;
         int     getX(void) const;

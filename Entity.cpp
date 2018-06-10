@@ -20,6 +20,11 @@ Entity::Entity(WINDOW * win, int x, int y, char c) {
     character = c;
 }
 
+Entity::Entity() {
+    
+}
+
+
 Entity::~Entity() {
     
 }
@@ -43,11 +48,29 @@ Entity & Entity::operator = (Entity const & src){
     return *this;
 }
 
-bool Entity::comparePos(Entity const & src) const{
-    if (xLoc == src.getX() && yLoc == src.getY())
+bool Entity::comparePos(Entity const * src) const{
+    const int RADIUS = 2;
+    // if (xLoc == src->getX() && yLoc == src->getY())
+    //     return true;
+    // else
+    //     return false;
+    if (src->getX() <= (xLoc + RADIUS) && src->getX() >= (xLoc) && src->getY() == yLoc)
         return true;
     else
         return false;
+}
+
+bool Entity::comparePos(Entity const & src) const{
+    // if (xLoc == src.getX() && yLoc == src.getY())
+    //     return true;
+    // else
+    //     return false;
+    const int RADIUS = 2;
+    if (src.getX() <= (xLoc + RADIUS) && src.getX() >= (xLoc) && src.getY() == yLoc)
+        return true;
+    else
+        return false;
+    
 }
 
 void Entity::display(void) const{
