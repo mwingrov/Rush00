@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:16:36 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/10 16:54:00 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/12 11:00:42 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <cstdlib>
 
 Player::Player(WINDOW * win, int x, int y, const char * c) : Entity(win, x, y, c){
-    lives = 9;
+    lives = 1;
 }
 
 Player::~Player(void) {

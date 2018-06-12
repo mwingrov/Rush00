@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 12:26:32 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/10 18:19:38 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/12 10:49:10 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool Entity::comparePos(Entity const & src) const{
     //     return true;
     // else
     //     return false;
-    const int RADIUS = 4;
+    const int RADIUS = 3;
     if (src.getX() <= (xLoc + RADIUS) && src.getX() >= (xLoc) && src.getY() == yLoc)
         return true;
     else

@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:46:12 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/10 18:26:18 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/12 16:06:12 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,28 @@
 
 
 WINDOW * space;
-Enemy  enemies[50];
+Enemy  enemies[20];
 Player * player;
-Weapons weapons[50];
+Weapons weapons[200];
 int weaponsCount = 0;
 int score = 0;
-int enemyCounter = 50;
+int enemyCounter = 20;
 
 void    detectEnemyCol(int j) {
     for(int i = 0; i <= weaponsCount; i++) {
-        if (i != 50) {
+        if (i != 200) {
             if (enemies[j].comparePos(weapons[i]) == true)
             {
                 mvwaddstr(space, enemies[j].getY(), enemies[j].getX(), "   ");
                 enemies[j] = Enemy();
-                wrefresh(space);
                 score += 10;
                 enemyCounter--;
                 mvwprintw(space, 18, 38, "score: %d", score);
                 if (enemyCounter == 0) {
                     mvwprintw(space, 18, 18, "YOU WIN!!!!!");
-                    wrefresh(space);
                     getch();
                     refresh();
+					endwin();
                     exit(0);
                 }
             }
@@ -57,20 +56,21 @@ void    genEnemy() {
     int speed = 0;
     
     for(int i = 0; i < 20; i++) {
-        srand(i);
+        srand(i + 2);
         y = 1 + rand()%17;
-        speed = 1 + rand() % 3;
+        speed = 1 + rand()% 2;
         enemies[i] =  Enemy(space, x, y, "<={");
         enemies[i].setSpeed(speed);
     }
 }
 
 void    moveWeapons(void) {
-    mvwprintw(space, 18, 2, "Ammo: %d", 50 - weaponsCount);
+    mvwprintw(space, 18, 2, "Ammo: %d", 200 - weaponsCount);
     for(int i = 0; i <= weaponsCount; i++) {
-        if (i != 50) {
+        if (i != 200) {
             weapons[i].moveForward(2);
             weapons[i].shoot();
+			wrefresh(space);
         }
     }
 }
@@ -86,9 +86,9 @@ void    moveEnemies() {
                 if (player->decreaseLives() == 0)
                 {
                     mvwprintw(space, 18, 18, "YOU DIED");
-                    wrefresh(space);
                     getch();
                     refresh();
+					endwin();
                     exit(0);
                 }
                 mvwaddstr(space, enemies[i].getY(), enemies[i].getX(), "   ");
@@ -109,11 +109,12 @@ void    EnemyShip(void) {
     wrefresh(space);
     while(true) {
             moveWeapons();
+			wrefresh(space);
             moveEnemies();
-            mvwprintw(space, 18, 18, "Lives: ");
+			wrefresh(space);
             mvwprintw(space, 18, 18, "Lives: %d", player->getLives());
             wrefresh(space);
-            usleep(150000);
+            usleep(100000);
     }
 }
 
@@ -129,22 +130,24 @@ int main() {
     int input;
     getmaxyx(stdscr, yMax, xMax);
     space = newwin(20, 50, (yMax/2 - 10), 10);
-    box(space,0,0);
+    //box(space,0,0);
     refresh();
     wrefresh(space);
     player = new Player(space, 4, 10, "=>");
-    mvwprintw(space, 18, 18, "Lives: 9");
+    mvwprintw(space, 18, 18, "Lives: 1");
     mvwprintw(space, 18, 38, "score: %d", score);
+	wrefresh(space);
     std::thread runner (EnemyShip);
     do
     {
         player->display();
         wrefresh(space);
         input = player->getPlayerInput();
-        if (input == 32 && weaponsCount < 50) //KEY_SPACE
+        if (input == 32 && weaponsCount < 200) //KEY_SPACE
         {
-            weapons[weaponsCount] = Weapons(space, player->getX()+3, player->getY(), "->");
+            weapons[weaponsCount] = Weapons(space, player->getX() + 3, player->getY(), "->");
             weapons[weaponsCount].shoot();
+			wrefresh(space);
             weaponsCount++;
         }
         if(input == 'x')
