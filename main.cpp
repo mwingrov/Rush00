@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:46:12 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/12 16:06:12 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/13 09:33:33 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 
 WINDOW * space;
-Enemy  enemies[20];
+Enemy  enemies[100];
 Player * player;
 Weapons weapons[200];
 int weaponsCount = 0;
@@ -37,6 +37,7 @@ void    detectEnemyCol(int j) {
                 score += 10;
                 enemyCounter--;
                 mvwprintw(space, 18, 38, "score: %d", score);
+				wrefresh(space);
                 if (enemyCounter == 0) {
                     mvwprintw(space, 18, 18, "YOU WIN!!!!!");
                     getch();
@@ -55,17 +56,18 @@ void    genEnemy() {
     int x = 48;
     int speed = 0;
     
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < 100; i++) {
         srand(i + 2);
         y = 1 + rand()%17;
-        speed = 1 + rand()% 2;
+        speed = rand()% 5;
         enemies[i] =  Enemy(space, x, y, "<={");
         enemies[i].setSpeed(speed);
     }
 }
 
 void    moveWeapons(void) {
-    mvwprintw(space, 18, 2, "Ammo: %d", 200 - weaponsCount);
+    mvwprintw(space, 18, 2, "Ammo: %04d", 200 - weaponsCount);
+	wrefresh(space);
     for(int i = 0; i <= weaponsCount; i++) {
         if (i != 200) {
             weapons[i].moveForward(2);
@@ -76,10 +78,11 @@ void    moveWeapons(void) {
 }
 
 void    moveEnemies() {
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < 100; i++) {
         if (enemies[i].isReady()) {
             enemies[i].moveForward(enemies[i].getSpeed());
             enemies[i].display();
+			wrefresh(space);
             if (enemies[i].comparePos(player) == true)
             {
                 enemyCounter--;
@@ -154,6 +157,7 @@ int main() {
         {
             runner.detach();
             refresh();
+			endwin();
             return 0;
         }
     }
