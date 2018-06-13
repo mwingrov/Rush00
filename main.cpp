@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:46:12 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/13 09:33:33 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/13 14:44:53 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,28 @@
 
 
 WINDOW * space;
-Enemy  enemies[100];
+Enemy  enemies[700];
 Player * player;
 Weapons weapons[200];
 int weaponsCount = 0;
 int score = 0;
-int enemyCounter = 20;
+int enemyCounter = 700;
+int numberOfEnemies = 700;
 
 void    detectEnemyCol(int j) {
     for(int i = 0; i <= weaponsCount; i++) {
-        if (i != 200) {
+        if (i != numberOfEnemies) {
             if (enemies[j].comparePos(weapons[i]) == true)
             {
-                mvwaddstr(space, enemies[j].getY(), enemies[j].getX(), "   ");
+                mvwaddstr(space, enemies[j].getY(), enemies[j].getX(), "     ");
                 enemies[j] = Enemy();
                 score += 10;
                 enemyCounter--;
-                mvwprintw(space, 18, 38, "score: %d", score);
+                mvwprintw(space, 0, 58, "score: %d", score);
 				wrefresh(space);
                 if (enemyCounter == 0) {
-                    mvwprintw(space, 18, 18, "YOU WIN!!!!!");
+                    mvwprintw(space, 0, 38, "YOU WIN!!!!!");
+                    wrefresh(space);
                     getch();
                     refresh();
 					endwin();
@@ -53,24 +55,24 @@ void    detectEnemyCol(int j) {
 
 void    genEnemy() {
     int y = 0;
-    int x = 48;
+    int x = 250;
     int speed = 0;
     
-    for(int i = 0; i < 100; i++) {
-        srand(i + 2);
-        y = 1 + rand()%17;
-        speed = rand()% 5;
+    for(int i = 0; i < numberOfEnemies; i++) {
+        srand(i);
+        y = 1 + rand() % 60;
+        speed = 1 + rand()% 12;
         enemies[i] =  Enemy(space, x, y, "<={");
         enemies[i].setSpeed(speed);
     }
 }
 
 void    moveWeapons(void) {
-    mvwprintw(space, 18, 2, "Ammo: %04d", 200 - weaponsCount);
+    mvwprintw(space, 0, 18, "Ammo: %04d", 200 - weaponsCount);
 	wrefresh(space);
     for(int i = 0; i <= weaponsCount; i++) {
         if (i != 200) {
-            weapons[i].moveForward(2);
+            weapons[i].moveForward(4);
             weapons[i].shoot();
 			wrefresh(space);
         }
@@ -78,7 +80,7 @@ void    moveWeapons(void) {
 }
 
 void    moveEnemies() {
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < numberOfEnemies; i++) {
         if (enemies[i].isReady()) {
             enemies[i].moveForward(enemies[i].getSpeed());
             enemies[i].display();
@@ -88,13 +90,23 @@ void    moveEnemies() {
                 enemyCounter--;
                 if (player->decreaseLives() == 0)
                 {
-                    mvwprintw(space, 18, 18, "YOU DIED");
+                    mvwprintw(space, 0, 38, "YOU DIED");
+                    wrefresh(space);
                     getch();
                     refresh();
 					endwin();
                     exit(0);
                 }
-                mvwaddstr(space, enemies[i].getY(), enemies[i].getX(), "   ");
+                if (enemyCounter == 0 && player->getLives() >= 1) {
+                    mvwprintw(space, 0, 38, "YOU WIN!!!!!");
+                    wrefresh(space);
+                    getch();
+                    refresh();
+					endwin();
+                    exit(0);
+                }
+                mvwaddstr(space, enemies[i].getY(), enemies[i].getX(), "     ");
+                wrefresh(space);
                 enemies[i] = Enemy();
             }
             else {
@@ -115,7 +127,7 @@ void    EnemyShip(void) {
 			wrefresh(space);
             moveEnemies();
 			wrefresh(space);
-            mvwprintw(space, 18, 18, "Lives: %d", player->getLives());
+            mvwprintw(space, 0, 38, "Lives: %d", player->getLives());
             wrefresh(space);
             usleep(100000);
     }
@@ -132,13 +144,14 @@ int main() {
     int yMax, xMax;
     int input;
     getmaxyx(stdscr, yMax, xMax);
-    space = newwin(20, 50, (yMax/2 - 10), 10);
+    space = newwin(0, 0, 0, 0);
     //box(space,0,0);
     refresh();
     wrefresh(space);
     player = new Player(space, 4, 10, "=>");
-    mvwprintw(space, 18, 18, "Lives: 1");
-    mvwprintw(space, 18, 38, "score: %d", score);
+    mvwprintw(space, 0, 38, "Lives: 3");
+    wrefresh(space);
+    mvwprintw(space, 0, 58, "score: %d", score);
 	wrefresh(space);
     std::thread runner (EnemyShip);
     do

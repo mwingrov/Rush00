@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 12:26:32 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/12 10:49:10 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/13 12:48:02 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,8 @@ Entity & Entity::operator = (Entity const & src){
 }
 
 bool Entity::comparePos(Entity const * src) const{
-    const int RADIUS = 3;
-    // if (xLoc == src->getX() && yLoc == src->getY())
-    //     return true;
-    // else
-    //     return false;
+    const int RADIUS = 6;
+
     if (src->getX() <= (xLoc + RADIUS) && src->getX() >= (xLoc) && src->getY() == yLoc)
         return true;
     else
@@ -61,11 +58,8 @@ bool Entity::comparePos(Entity const * src) const{
 }
 
 bool Entity::comparePos(Entity const & src) const{
-    // if (xLoc == src.getX() && yLoc == src.getY())
-    //     return true;
-    // else
-    //     return false;
-    const int RADIUS = 3;
+    const int RADIUS = 6;
+    
     if (src.getX() <= (xLoc + RADIUS) && src.getX() >= (xLoc) && src.getY() == yLoc)
         return true;
     else

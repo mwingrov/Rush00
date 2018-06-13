@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:25:27 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/10 16:59:05 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/13 12:36:16 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    Enemy::moveForward(int xIncr) {
     mvwaddstr(currentWindow, getY(), getX(), "   ");
     move(-xIncr, 0);
     if (getX() < 1) {
-        xLoc = 48;
+        xLoc = 250;
     }
 }
 
