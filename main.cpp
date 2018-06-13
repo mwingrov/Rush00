@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:46:12 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/13 14:44:53 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/13 16:43:11 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@
 
 
 WINDOW * space;
-Enemy  enemies[700];
+Enemy  enemies[100];
 Player * player;
 Weapons weapons[200];
 int weaponsCount = 0;
 int score = 0;
-int enemyCounter = 700;
-int numberOfEnemies = 700;
+int enemyCounter = 100;
+int numberOfEnemies = 100;
+int ammo = 62;
 
 void    detectEnemyCol(int j) {
     for(int i = 0; i <= weaponsCount; i++) {
@@ -61,18 +62,18 @@ void    genEnemy() {
     for(int i = 0; i < numberOfEnemies; i++) {
         srand(i);
         y = 1 + rand() % 60;
-        speed = 1 + rand()% 12;
+        speed = 1 + rand()% 10;
         enemies[i] =  Enemy(space, x, y, "<={");
         enemies[i].setSpeed(speed);
     }
 }
 
 void    moveWeapons(void) {
-    mvwprintw(space, 0, 18, "Ammo: %04d", 200 - weaponsCount);
+    mvwprintw(space, 0, 18, "Ammo: %04d", ammo - weaponsCount);
 	wrefresh(space);
     for(int i = 0; i <= weaponsCount; i++) {
-        if (i != 200) {
-            weapons[i].moveForward(4);
+        if (i != ammo) {
+            weapons[i].moveForward(3);
             weapons[i].shoot();
 			wrefresh(space);
         }
@@ -129,7 +130,7 @@ void    EnemyShip(void) {
 			wrefresh(space);
             mvwprintw(space, 0, 38, "Lives: %d", player->getLives());
             wrefresh(space);
-            usleep(100000);
+            usleep(70000);
     }
 }
 
@@ -159,7 +160,7 @@ int main() {
         player->display();
         wrefresh(space);
         input = player->getPlayerInput();
-        if (input == 32 && weaponsCount < 200) //KEY_SPACE
+        if (input == 32 && weaponsCount < ammo) //KEY_SPACE
         {
             weapons[weaponsCount] = Weapons(space, player->getX() + 3, player->getY(), "->");
             weapons[weaponsCount].shoot();
