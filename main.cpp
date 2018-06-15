@@ -6,7 +6,7 @@
 /*   By: mwingrov <mwingrov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 13:46:12 by kngwato           #+#    #+#             */
-/*   Updated: 2018/06/13 16:43:11 by mwingrov         ###   ########.fr       */
+/*   Updated: 2018/06/15 11:12:46 by mwingrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void    genEnemy() {
     int y = 0;
     int x = 250;
     int speed = 0;
+	srand(time(NULL));
     
-    for(int i = 0; i < numberOfEnemies; i++) {
-        srand(i);
+	for(int i = 0; i < numberOfEnemies; i++) {
         y = 1 + rand() % 60;
-        speed = 1 + rand()% 10;
-        enemies[i] =  Enemy(space, x, y, "<={");
+        speed = 1 + (rand() % 5) ;
+        enemies[i] = Enemy(space, x, y, "<={");
         enemies[i].setSpeed(speed);
     }
 }
